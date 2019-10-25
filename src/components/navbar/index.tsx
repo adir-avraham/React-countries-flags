@@ -1,89 +1,41 @@
-
-
-import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import ImageIcon from '@material-ui/icons/Image';
-import PublicIcon from '@material-ui/icons/Public';
-
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { Link } from "react-router-dom";
-
-
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 
-const useStyles = makeStyles({
-  root: {
-    width: 500,
-  },
-});
 
-export default function SimpleBottomNavigation() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
 
-  return (
-    <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-      className={classes.root}
-    >
-        <Link to="add-image">
-      <BottomNavigationAction label="Add" icon={<AddAPhotoIcon />} />
-       </Link>
-      
-      <BottomNavigationAction label="Images" icon={<ImageIcon />} />
-      <BottomNavigationAction label="Countries" icon={<PublicIcon />} />
-    </BottomNavigation>
-  );
+export default class Navbar extends React.Component<any, any> {
+
+
+  render() {
+
+    return (
+
+      <div>
+        <CssBaseline />
+        <AppBar position="static" color="default" elevation={0} style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}>
+          <Toolbar style={{ flexWrap: 'wrap' }}>
+            <Typography align="left" variant="h6" color="inherit" noWrap style={{ flexGrow: 1 }}>
+              COUNTRIES FLAGS APP</Typography>
+            <nav>
+              <Link to="/add-image" color="textPrimary" style={{ margin: 2 }}>
+                <Button> add </Button>
+              </Link>
+              <Link to="/movies-page" color="textPrimary" style={{ margin: 2 }}>
+                <Button> images </Button>
+              </Link>
+              <Link to='/feedback/' color="textPrimary" style={{ margin: 2 }}>
+                <Button> countries </Button>
+              </Link>               
+            </nav>
+          </Toolbar>
+        </AppBar>
+      </div>
+    )
+  }
 }
-
-
-
-
-
-// import React from 'react';
-// import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-// import ImageIcon from '@material-ui/icons/Image';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import TypoGraphy from '@material-ui/core/Typography'
-
-
-// function NavBar(props: any) {
-
-//     return (
-//         <List component="nav">
-//             <ListItem component="div">
-//                 <ListItemText inset>
-//                     <TypoGraphy color="inherit" variant="h6">
-//                         Add <AddAPhotoIcon/>
-//                </TypoGraphy>
-//                 </ListItemText>
-
-
-//                 <ListItemText inset>
-//                     <TypoGraphy color="inherit" variant="h6">
-//                         Images <ImageIcon/>
-//                </TypoGraphy>
-//                 </ListItemText>
-
-
-//                 <ListItemText inset>
-//                     <TypoGraphy color="inherit" variant="h6">
-//                         Contact
-//                </TypoGraphy>
-//                 </ListItemText>
-//             </ListItem >
-
-//         </List>
-//     )
-// }
-
-
-// export default NavBar;
