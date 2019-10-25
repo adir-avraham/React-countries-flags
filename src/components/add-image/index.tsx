@@ -17,14 +17,16 @@ import { getCountries } from '../../redux/actions'
 
 
 export class AddImage extends React.Component<any, any> {
-
+  state = {
+    imgUrl: "",
+  }
   componentDidMount() {
     const { getCountries } = this.props.reduxAction
     getCountries()
   }
-
   render() {
-
+    
+    const {countriesName, result } = this.props
     return (
       <div>
  <Container component="main" maxWidth="xs">
@@ -51,18 +53,25 @@ export class AddImage extends React.Component<any, any> {
               <Grid container spacing={2}>
                 <Grid style={{ marginBottom: "8px" }} item xs={12}>
                 <InputLabel htmlFor="age-native-simple">Countries</InputLabel>
-        <Select
-          native
-          value={"hey"}
-          inputProps={{
-            name: 'Countries',
-            id: 'age-native-simple',
-          }}
+          
+        <Select onChange={(e)=>{
+            const temp: any = e.target.value
+            
+            
+            this.setState({imgUrl: result[temp]})
+          }}  
+        native
+        inputProps={{
+          name: 'Countries',
+        }}
         >
-          <option value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+                      {
+                        countriesName.map((country: any, index: number) => 
+          
+          <option key={country + index} value={country} 
+          >{country}</option>
+
+          )}
         </Select>
  
                   
@@ -76,9 +85,7 @@ export class AddImage extends React.Component<any, any> {
                     label="Image url"
                     name="Image url"
                     autoComplete="Image url"
-                    onChange={(e)=>{
-                    this.setState({Poster: e.target.value})
-                    }}
+                    value={this.state.imgUrl}
                   />
                 </Grid>
 
@@ -109,8 +116,13 @@ export class AddImage extends React.Component<any, any> {
   
 const mapStateToProps = (state: any) => {
   const {countries} = state;
-  console.log(countries)
-  return {countries}
+  const result = countries.reduce((countreisObj: any, country: any) => {
+    const {name, flag} = country
+    const oldCountry = countreisObj[name] || [] 
+    return { ...countreisObj, [name]: [...oldCountry, flag] }
+  }, {})
+  const countriesName = Object.keys(result) 
+  return {countriesName, result}
 }
 
 const mapDispathToprops = (dispatch: any) => {
