@@ -29,7 +29,7 @@ export default class Navbar extends React.Component<any, any> {
               <Link to="/movies-page" color="textPrimary" style={{ margin: 2 }}>
                 <Button> images </Button>
               </Link>
-              <Link to='/feedback/' color="textPrimary" style={{ margin: 2 }}>
+              <Link to='/countries-page' color="textPrimary" style={{ margin: 2 }}>
                 <Button> countries </Button>
               </Link>               
             </nav>

@@ -1,6 +1,5 @@
 import React from 'react';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-//import { addNewArrivalAction } from '../../redux/actions';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
@@ -12,24 +11,25 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import { getCountries } from '../../redux/actions'
+import { getCountries, addImageAction } from '../../redux/actions'
 
 
 
 export class AddImage extends React.Component<any, any> {
-  state = {
-    imgUrl: "",
-  }
+  
+  state = { imgUrl: "" }
+  
   componentDidMount() {
     const { getCountries } = this.props.reduxAction
     getCountries()
   }
+  
   render() {
     
     const {countriesName, result } = this.props
+  
     return (
-      <div>
- <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div style={{
             marginTop: "16px",
@@ -53,43 +53,27 @@ export class AddImage extends React.Component<any, any> {
               <Grid container spacing={2}>
                 <Grid style={{ marginBottom: "8px" }} item xs={12}>
                 <InputLabel htmlFor="age-native-simple">Countries</InputLabel>
-          
-        <Select onChange={(e)=>{
-            const temp: any = e.target.value
-            
-            
-            this.setState({imgUrl: result[temp]})
-          }}  
-        native
-        inputProps={{
-          name: 'Countries',
-        }}
-        >
-                      {
-                        countriesName.map((country: any, index: number) => 
-          
-          <option key={country + index} value={country} 
-          >{country}</option>
-
-          )}
-        </Select>
- 
-                  
-                </Grid>
-                
-                <Grid style={{ marginBottom: "8px" }} item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    id="Image url"
-                    label="Image url"
-                    name="Image url"
-                    autoComplete="Image url"
-                    value={this.state.imgUrl}
-                  />
-                </Grid>
-
-
+              <Select onChange={(e)=>{
+                const selectedValue: any = e.target.value
+                this.setState({imgUrl: result[selectedValue]})
+                }}  
+                native
+                inputProps={{ name: 'Countries'}}>
+                {countriesName.map((country: any, index: number) => 
+                <option key={country + index} value={country}>{country}</option>
+                )}
+              </Select>
+              </Grid>  
+              <Grid style={{ marginBottom: "8px" }} item xs={12}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="Image url"
+                  label="Image url"
+                  name="Image url"
+                  autoComplete="Image url"
+                  value={this.state.imgUrl}/>
+              </Grid>
               </Grid>
               <Button
                 fullWidth
@@ -97,23 +81,20 @@ export class AddImage extends React.Component<any, any> {
                 color="primary"
                 style={{ margin: "18px 0px 4px" }}
                 onClick={()=>{
-                  const { addNewArrival } = this.props
-                  addNewArrival(this.state)
-                }}
-              >
+                  const { addImage } = this.props
+                  const { imgUrl } = this.state
+                  addImage(imgUrl)
+                }}>
                 Add image
-          </Button>
+              </Button>
             </form>
           </div>
         </Container>
-      </div>      
-
-      
           )
       }
-  
-  }
-  
+}
+
+
 const mapStateToProps = (state: any) => {
   const {countries} = state;
   const result = countries.reduce((countreisObj: any, country: any) => {
@@ -131,6 +112,9 @@ const mapDispathToprops = (dispatch: any) => {
       getCountries: () => {
         dispatch(getCountries())
       }
+    },
+    addImage: (imgUrl: any) => {
+        dispatch(addImageAction(imgUrl))
     }
   }
 }
