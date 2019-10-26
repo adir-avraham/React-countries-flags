@@ -4,6 +4,7 @@ import AddImage from './components/add-image'
 import Navbar from './components/navbar'
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import CountriesPage from './components/countries-page';
+import ImagesPage from './components/images-page'
 
 const App: React.FC = () => {
   return (
@@ -13,7 +14,9 @@ const App: React.FC = () => {
          
         <Switch>
           <Route path="/add-image" component={AddImage} />
+          <Route path="/images-page" component={ImagesPage} />
           <Route path="/countries-page" component={CountriesPage} />
+          <Route path="**" component={AddImage} />
         </Switch>           
            
       </BrowserRouter>

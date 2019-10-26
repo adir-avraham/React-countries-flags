@@ -7,7 +7,6 @@ const initialState = {
 
 
 export default function root(state = initialState, action: any) {
-    console.log(state)
     switch (action.type) {
         case Actions.GET_COUNTRIES_SUCCESS: {
             const { countries } = action.payload;

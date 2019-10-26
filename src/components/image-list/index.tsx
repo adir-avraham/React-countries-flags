@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Image from '../image'
 import { Container, Grid } from '@material-ui/core';
-//import { maxWidth } from '@material-ui/system';
+
 
 export class ImageList extends React.Component<any, any> {
     render() {
@@ -24,7 +24,6 @@ export class ImageList extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
     const { imgUrls } = state
-    console.log("new consol=>" + imgUrls)
     return { imgUrls }
   }
   

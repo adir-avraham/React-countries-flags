@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-//import Header from '../header'
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -19,10 +18,10 @@ export class AddImage extends React.Component<any, any> {
   
   state = { imgUrl: "" }
   
-  componentDidMount() {
-    const { getCountries } = this.props.reduxAction
-    getCountries()
-  }
+  // componentDidMount() {
+  //   const { getCountries } = this.props.reduxAction
+  //   getCountries()
+  // }
   
   render() {
     
@@ -108,11 +107,11 @@ const mapStateToProps = (state: any) => {
 
 const mapDispathToprops = (dispatch: any) => {
   return {
-    reduxAction: {
-      getCountries: () => {
-        dispatch(getCountries())
-      }
-    },
+    // reduxAction: {
+    //   getCountries: () => {
+    //     dispatch(getCountries())
+    //   }
+    // },
     addImage: (imgUrl: any) => {
         dispatch(addImageAction(imgUrl))
     }
