@@ -6,14 +6,14 @@ import { Container, Grid } from '@material-ui/core';
 
 export class ImageList extends React.Component<any, any> {
     render() {
-        const { imgUrls } = this.props
+        const { images } = this.props
         
         
         return (
             
             <Container style={{paddingTop: "16px", paddingBottom: "16px"}} maxWidth="md">
                 <Grid container spacing={4}>
-                    {imgUrls.map((img: any, index: number) => <Image key={`img_${index}`} {...img}/>)}
+                    {images.map((img: any, index: number) => <Image key={`img_${index}`} {...img}/>)}
                 </Grid>
             </Container>
         )
@@ -23,8 +23,8 @@ export class ImageList extends React.Component<any, any> {
 
 
 const mapStateToProps = (state: any) => {
-    const { imgUrls } = state
-    return { imgUrls }
+    const { images } = state
+    return { images }
   }
   
   

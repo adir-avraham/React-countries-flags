@@ -2,11 +2,12 @@ import Actions from './actions.config';
 
 const initialState = {
     countries: [],
-    imgUrls: []
+    images: []
 }
 
 
 export default function root(state = initialState, action: any) {
+    console.log(action)
     switch (action.type) {
         case Actions.GET_COUNTRIES_SUCCESS: {
             const { countries } = action.payload;
@@ -17,10 +18,12 @@ export default function root(state = initialState, action: any) {
         }
         case Actions.ADD_IMAGE: {
             const { image } = action.payload
-            const { imgUrls } = state
+            const {country, imgUrl} = image
+            const { images } = state
+            console.log(state)
             return {
                 ...state,
-                imgUrls: [...imgUrls, {image}]
+                images: [...images, {imgUrl}] 
             }
         }
         default: {

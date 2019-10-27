@@ -16,16 +16,17 @@ import { getCountries, addImageAction } from '../../redux/actions'
 
 export class AddImage extends React.Component<any, any> {
   
-  state = { imgUrl: "" }
+  state = { country: "", imgUrl: "" }
   
-  // componentDidMount() {
-  //   const { getCountries } = this.props.reduxAction
-  //   getCountries()
-  // }
+  componentDidMount() {
+    const { getCountries } = this.props.reduxAction
+    getCountries()
+  }
   
   render() {
     
-    const {countriesName, result } = this.props
+    //const {countriesName, result } = this.props
+    const {countries } = this.props
   
     return (
         <Container component="main" maxWidth="xs">
@@ -52,15 +53,25 @@ export class AddImage extends React.Component<any, any> {
               <Grid container spacing={2}>
                 <Grid style={{ marginBottom: "8px" }} item xs={12}>
                 <InputLabel htmlFor="age-native-simple">Countries</InputLabel>
-              <Select onChange={(e)=>{
-                const selectedValue: any = e.target.value
-                this.setState({imgUrl: result[selectedValue]})
+              <Select 
+                // onChange={(e)=>{
+                // const selectedValue: any = e.target.value
+                // this.setState({imgUrl: result[selectedValue]})
+                // }}  
+                // native
+                // inputProps={{ name: 'Countries'}}>
+                // {countriesName.map((country: any, index: number) => 
+                // <option key={country + index} value={country}>{country}</option>
+                // )}
+                onChange={(e)=>{
+                this.setState({country: e.target.value})
                 }}  
                 native
                 inputProps={{ name: 'Countries'}}>
-                {countriesName.map((country: any, index: number) => 
-                <option key={country + index} value={country}>{country}</option>
-                )}
+                {countries.map((country: any, index: number) => {
+                 const {name} = country
+                return <option key={name + index} value={name}>{name}</option>
+                })}
               </Select>
               </Grid>  
               <Grid style={{ marginBottom: "8px" }} item xs={12}>
@@ -71,7 +82,9 @@ export class AddImage extends React.Component<any, any> {
                   label="Image url"
                   name="Image url"
                   autoComplete="Image url"
-                  value={this.state.imgUrl}/>
+                  onChange={(e)=>{
+                    this.setState({imgUrl: e.target.value})
+                  }}></TextField>
               </Grid>
               </Grid>
               <Button
@@ -81,8 +94,9 @@ export class AddImage extends React.Component<any, any> {
                 style={{ margin: "18px 0px 4px" }}
                 onClick={()=>{
                   const { addImage } = this.props
-                  const { imgUrl } = this.state
-                  addImage(imgUrl)
+                  //const { imgUrl } = this.state
+                  console.log(this.state)
+                  addImage(this.state)
                 }}>
                 Add image
               </Button>
@@ -96,24 +110,25 @@ export class AddImage extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
   const {countries} = state;
-  const result = countries.reduce((countreisObj: any, country: any) => {
-    const {name, flag} = country
-    const oldCountry = countreisObj[name] || [] 
-    return { ...countreisObj, [name]: [...oldCountry, flag] }
-  }, {})
-  const countriesName = Object.keys(result) 
-  return {countriesName, result}
+  // const result = countries.reduce((countreisObj: any, country: any) => {
+  //   const {name, flag} = country
+  //   const oldCountry = countreisObj[name] || [] 
+  //   return { ...countreisObj, [name]: [...oldCountry, flag] }
+  // }, {})
+  // const countriesName = Object.keys(result) 
+  // return {countriesName, result}
+  return {countries}
 }
 
 const mapDispathToprops = (dispatch: any) => {
   return {
-    // reduxAction: {
-    //   getCountries: () => {
-    //     dispatch(getCountries())
-    //   }
-    // },
-    addImage: (imgUrl: any) => {
-        dispatch(addImageAction(imgUrl))
+    reduxAction: {
+      getCountries: () => {
+        dispatch(getCountries())
+      }
+    },
+    addImage: (countryImage: any) => {
+        dispatch(addImageAction(countryImage))
     }
   }
 }
