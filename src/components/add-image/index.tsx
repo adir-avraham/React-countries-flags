@@ -67,6 +67,7 @@ export class AddImage extends React.Component<any, any> {
                 this.setState({country: e.target.value})
                 }}  
                 native
+                variant="filled"
                 inputProps={{ name: 'Countries'}}>
                 {countries.map((country: any, index: number) => {
                  const {name} = country
@@ -94,8 +95,9 @@ export class AddImage extends React.Component<any, any> {
                 style={{ margin: "18px 0px 4px" }}
                 onClick={()=>{
                   const { addImage } = this.props
-                  //const { imgUrl } = this.state
-                  console.log(this.state)
+                  const { imgUrl, country } = this.state
+                  console.log("on click" + this.state.country)
+                  if (!imgUrl || !country) return;
                   addImage(this.state)
                 }}>
                 Add image

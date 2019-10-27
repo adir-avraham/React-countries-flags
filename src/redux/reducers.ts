@@ -23,7 +23,7 @@ export default function root(state = initialState, action: any) {
             console.log(state)
             return {
                 ...state,
-                images: [...images, {imgUrl}] 
+                images: [...images, {country, imgUrl}] 
             }
         }
         default: {

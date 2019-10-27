@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 export default class Image extends React.Component<any, any> {
 
     render() {
-        const { imgUrl } = this.props
+        const { imgUrl , country } = this.props
      
         console.log("image com=>" + this.props)
         return (
@@ -22,7 +22,7 @@ export default class Image extends React.Component<any, any> {
                 title="Image title" />
               <CardContent style={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h5" component="h2">
-                {/* {Title} */}
+                {country}
                 </Typography>
               </CardContent>
             </Card>
