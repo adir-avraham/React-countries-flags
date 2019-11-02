@@ -11,22 +11,25 @@ import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { getCountries, addImageAction } from '../../redux/actions'
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 
-export class AddImage extends React.Component<any, any> {
-  
-  state = { country: "", imgUrl: "" }
+class AddImage extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { current: "ISR", image: "" }
+  }
   
   componentDidMount() {
-    const { getCountries } = this.props.reduxAction
+    const { getCountries } = this.props.reduxActions
     getCountries()
   }
   
   render() {
     
-    //const {countriesName, result } = this.props
-    const {countries } = this.props
+    const { countries } = this.props
+    if(!countries.length) return <h1>No data...</h1>;
   
     return (
         <Container component="main" maxWidth="xs">
@@ -54,26 +57,12 @@ export class AddImage extends React.Component<any, any> {
                 <Grid style={{ marginBottom: "8px" }} item xs={12}>
                 <InputLabel htmlFor="age-native-simple">Countries</InputLabel>
               <Select 
-                // onChange={(e)=>{
-                // const selectedValue: any = e.target.value
-                // this.setState({imgUrl: result[selectedValue]})
-                // }}  
-                // native
-                // inputProps={{ name: 'Countries'}}>
-                // {countriesName.map((country: any, index: number) => 
-                // <option key={country + index} value={country}>{country}</option>
-                // )}
-                onChange={(e)=>{
-                this.setState({country: e.target.value})
-                }}  
-                native
+                value={this.state.current}
                 variant="filled"
-                inputProps={{ name: 'Countries'}}>
-                {countries.map((country: any, index: number) => {
-                 const {name} = country
-                return <option key={name + index} value={name}>{name}</option>
-                })}
-              </Select>
+                onChange={(e: any)=> this.setState({current: e.target.value})}
+                >
+                {generateMenuItems(countries)}
+                </Select>
               </Grid>  
               <Grid style={{ marginBottom: "8px" }} item xs={12}>
                 <TextField
@@ -84,7 +73,7 @@ export class AddImage extends React.Component<any, any> {
                   name="Image url"
                   autoComplete="Image url"
                   onChange={(e)=>{
-                    this.setState({imgUrl: e.target.value})
+                    this.setState({image: e.target.value})
                   }}></TextField>
               </Grid>
               </Grid>
@@ -94,10 +83,10 @@ export class AddImage extends React.Component<any, any> {
                 color="primary"
                 style={{ margin: "18px 0px 4px" }}
                 onClick={()=>{
-                  const { addImage } = this.props
-                  const { imgUrl, country } = this.state
-                  console.log("on click" + this.state.country)
-                  if (!imgUrl || !country) return;
+                  const { addImage } = this.props.reduxActions;
+                  //const { image, country } = this.state
+                  //console.log("on click" + this.state.country)
+                  // if (!image || !country) return;
                   addImage(this.state)
                 }}>
                 Add image
@@ -109,30 +98,56 @@ export class AddImage extends React.Component<any, any> {
       }
 }
 
+function generateMenuItems(countries: Array<Country>) {
+  return countries.map((country: Country) => {
+      const { name, code } = country;
+      return (
+         <MenuItem key={code} value={code}>
+            {name}
+          </MenuItem>
+      );  
+  })
+}
+
+interface Country {
+  capital: string;
+  name: string;
+  alpha3Code: string;
+  code: string;
+  region: string;
+  borders: Array<string>;
+  flag: string;
+}
 
 const mapStateToProps = (state: any) => {
   const {countries} = state;
-  // const result = countries.reduce((countreisObj: any, country: any) => {
-  //   const {name, flag} = country
-  //   const oldCountry = countreisObj[name] || [] 
-  //   return { ...countreisObj, [name]: [...oldCountry, flag] }
-  // }, {})
-  // const countriesName = Object.keys(result) 
-  // return {countriesName, result}
-  return {countries}
+  const mappedCountries = countries.map((country: Country) => {
+    const {capital, name, alpha3Code, region, borders, flag} = country;
+    return {
+      capital: capital,
+      name: name,
+      code: alpha3Code,
+      region: region,
+      borders: borders,
+      flag: flag
+    };
+  });
+  return {countries: mappedCountries} 
 }
 
 const mapDispathToprops = (dispatch: any) => {
   return {
-    reduxAction: {
+    reduxActions: {
       getCountries: () => {
         dispatch(getCountries())
-      }
-    },
-    addImage: (countryImage: any) => {
-        dispatch(addImageAction(countryImage))
+      },
+      addImage: (payload: any) => {
+        dispatch(
+          addImageAction({ code: payload.current, image: payload.image })
+        );
     }
   }
+}
 }
 
 export default connect(mapStateToProps, mapDispathToprops) (AddImage)

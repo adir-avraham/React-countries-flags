@@ -1,13 +1,14 @@
 import Actions from './actions.config';
 
+const imagesCountries: { [key: string]: any[] } = {};
 const initialState = {
     countries: [],
-    images: []
+    imagesCountries
 }
 
 
 export default function root(state = initialState, action: any) {
-    console.log(action)
+    console.log(action.type)
     switch (action.type) {
         case Actions.GET_COUNTRIES_SUCCESS: {
             const { countries } = action.payload;
@@ -17,13 +18,16 @@ export default function root(state = initialState, action: any) {
             }
         }
         case Actions.ADD_IMAGE: {
-            const { image } = action.payload
-            const {country, imgUrl} = image
-            const { images } = state
+            const { code, image } = action.payload
+            const { imagesCountries } = state
+            const isCodeExist = imagesCountries.hasOwnProperty(code);
             console.log(state)
             return {
                 ...state,
-                images: [...images, {country, imgUrl}] 
+                imagesCountries: {
+                    ...imagesCountries,
+                    [code]: isCodeExist ? [...imagesCountries[code], image] : [image]
+                }
             }
         }
         default: {

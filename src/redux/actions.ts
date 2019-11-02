@@ -18,9 +18,9 @@ export const getCountries = () => {
 }
 
 
-export const addImageAction = (image: any) => {
+export const addImageAction = (payload: any) => {
     return {
         type: Actions.ADD_IMAGE,
-        payload: { image }
+        payload
     }
 }

@@ -24,10 +24,7 @@ export default class Navbar extends React.Component<any, any> {
               COUNTRIES FLAGS APP</Typography>
             <nav>
               <Link to="/add-image" color="textPrimary" style={{ margin: 2 }}>
-                <Button> add </Button>
-              </Link>
-              <Link to="/images-page" color="textPrimary" style={{ margin: 2 }}>
-                <Button> images </Button>
+                <Button> Add image</Button>
               </Link>
               <Link to='/countries-page' color="textPrimary" style={{ margin: 2 }}>
                 <Button> countries </Button>
