@@ -3,7 +3,8 @@ import StoreTable from '../store-table';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getCountries } from '../../redux/actions';
-
+import Country from '../country';
+import Item from '../item';
 
 export class CountriesPage extends React.Component<any, any> {
     
@@ -18,15 +19,18 @@ export class CountriesPage extends React.Component<any, any> {
 
     render() {
         const { countries } = this.props;
-        if (!countries.length) return <h1>No data</h1>;
+        if (!countries.length) return <h1><img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Flag-globe-2.gif"/></h1>;
         const headers = getHeaders(countries);
         const data = getTableBody(countries);
-        
+        console.log(countries)
         return (
             <div>
-                <h1>Countries page</h1>
-
-                <StoreTable headers={headers} data={data}/>
+                <h1 className="text-center py-2">Countries page</h1>
+                <div className="container py-3" style={{maxWidth: "1024px"}}>
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {countries.map((country: any) => <Country key={country.name}  {...country} />)}
+                </div>
+                </div>
             </div>
         )
     }
@@ -102,19 +106,21 @@ interface Country {
     region: string;
     borders: Array<string>;
     flag: string;
+    population: number;
 }
 
 const mapStateToProps = (state: any) => {
     const { countries } = state;
     const mappedCountries = countries.map((country: Country)=>{
-        const { capital, name, alpha3Code, region, borders, flag } = country;
+        const { capital, name, alpha3Code, region, borders, flag, population } = country;
         return {
             capital: capital,
             name: name,
             code: alpha3Code,
             region: region,
             borders: borders,
-            flag: flag
+            flag: flag,
+            population: population
         };
     });
     return { countries: mappedCountries }
